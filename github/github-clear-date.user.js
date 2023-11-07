@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Github Clear Date
 // @namespace   https://github.com/wzshiming/userscripts
-// @version     0.3.0
+// @version     0.3.1
 // @description Add a clear date to the relative time in Github
 // @author      wzshiming
 // @match       *://github.com/*
@@ -25,20 +25,13 @@
         subtree: true,
         attributes: true,
     };
-    let observer = new MutationObserver(mutationForce);
+    let observer = new MutationObserver(mutation);
     observer.observe(document.body, config);
     mutate(document.body);
 })();
 
 function mutate(elem) {
     elem.querySelectorAll('relative-time').forEach(formatTime);
-}
-
-function mutationForce(mutationsList, observer) {
-    mutation(mutationsList);
-    setTimeout(function () {
-        mutation(mutationsList);
-    }, 1000 + Math.round(Math.random() * 1000));
 }
 
 function mutation(mutationsList) {

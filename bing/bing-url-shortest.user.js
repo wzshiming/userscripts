@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Bing URL Shorten
 // @namespace   https://github.com/wzshiming/userscripts
-// @version     0.1
+// @version     0.1.0
 // @description Mark Bing URL Shortest.
 // @author      wzshiming
 // @match       *://*.bing.com/*

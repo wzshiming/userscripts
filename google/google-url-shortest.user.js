@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Google URL Shorten
 // @namespace   https://github.com/wzshiming/userscripts
-// @version     0.1
+// @version     0.1.0
 // @description Mark Google URL Shortest.
 // @author      wzshiming
 // @match       *://*.google.com/*

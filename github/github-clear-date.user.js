@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Github Clear Date
 // @namespace   https://github.com/wzshiming/userscripts
-// @version     0.3.1
+// @version     0.4.0
 // @description Add a clear date to the relative time in Github
 // @author      wzshiming
 // @match       *://github.com/*
@@ -31,7 +31,7 @@
 })();
 
 function mutate(elem) {
-    elem.querySelectorAll('relative-time').forEach(formatTime);
+    elem.querySelectorAll('relative-time').forEach(formatRelativeTime);
 }
 
 function mutation(mutationsList) {
@@ -40,23 +40,64 @@ function mutation(mutationsList) {
     }
 }
 
-function formatTime(item) {
+function formatRelativeTime(item) {
     let text = item.shadowRoot.innerHTML;
     if (text.length == 0 || text.indexOf("(") >= 0) {
         return
     }
-    let date = item.datetime.split("T")[0].replaceAll("-", "/")
-    if (date.length < 8) {
+
+    let datetime = new Date(item.datetime);
+    let now = new Date();
+
+    let dateStr = formatTime(datetime, now)
+    if (dateStr.length == 0) {
         return
     }
+    item.shadowRoot.innerHTML += "(" + dateStr + ")";
+    return
+}
 
-    let now = new Date();
-    let year = now.getFullYear();
-    if (date.indexOf(year) == 0) {
-        date = date.substr(5);
-    } else if (date[0] == "2" && date[1] == "0") {
-        date = date.substr(2);
+function formatDate(datetime, now) {
+    let hour = datetime.getHours();
+    let minute = datetime.getMinutes();
+    let second = datetime.getSeconds();
+    let nowHour = now.getHours();
+    let nowMinute = now.getMinutes();
+    let nowSecond = now.getSeconds();
+
+    if (hour == nowHour &&
+        minute == nowMinute &&
+        second == nowSecond) {
+        return "";
     }
 
-    item.shadowRoot.innerHTML += "(" + date + ")";
+    return "" + hour + ":" + minute + ":" + second;
+}
+
+function formatTime(datetime, now) {
+    let year = datetime.getFullYear();
+    let month = datetime.getMonth();
+    let day = datetime.getDate();
+    let nowYear = now.getFullYear();
+    let nowMonth = now.getMonth();
+    let nowDay = now.getDate();
+
+    if (year == nowYear &&
+        month == nowMonth &&
+        day == nowDay) {
+        return formatDate(datetime, now);
+    }
+
+    // append date
+    if (year == nowYear) { // this year will be omitted
+        return "" + (month + 1) + "/" + day;
+    }
+
+    let century = Math.round(year / 100);
+    let nowCentury = Math.round(nowYear / 100);
+    if (century == nowCentury) { // this century will be omitted
+        return "" + (year - 2000) + "/" + (month + 1) + "/" + day;
+    }
+
+    return "" + year + "/" + (month + 1) + "/" + day;
 }

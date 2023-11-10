@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Bing URL Shorten
 // @namespace   https://github.com/wzshiming/userscripts
-// @version     0.1.1
+// @version     0.1.2
 // @description Mark Bing URL Shortest.
 // @author      wzshiming
 // @match       *://*.bing.com/*
@@ -31,7 +31,7 @@ function sturl() {
     ];
     nurl = rmqs(nurl, qs);
 
-    var qseq = ['first', '1'];
+    var qseq = [['first', '1']];
     nurl = rmqseq(nurl, qseq);
 
     if (url == nurl) {

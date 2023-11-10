@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Baidu URL Shorten
 // @namespace   https://github.com/wzshiming/userscripts
-// @version     0.1.0
+// @version     0.1.1
 // @description Mark Baidu URL Shortest.
 // @author      wzshiming
 // @match       *://*.baidu.com/*
@@ -27,6 +27,7 @@ function sturl() {
     var qs = [
         'rsv_spt', 'rsv_iqid', 'issp', 'f', 'rsv_bp', 'rsv_idx', 'ie', 'tn', 'rsv_enter', 'rsv_dl', 'rsv_sug3', 'rsv_sug1', 'rsv_sug7', 'rsv_sug2', 'rsv_btype', 'inputT', 'rsv_sug4', 'rsv_sug',
         'base_query', 'oq', 'usm', 'rsv_pq', 'rsv_t',
+        'prefixsug', 'rsp', 'rqlang',
     ];
     nurl = rmqs(nurl, qs);
 

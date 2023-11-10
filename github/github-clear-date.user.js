@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Github Clear Date
 // @namespace   https://github.com/wzshiming/userscripts
-// @version     0.4.0
+// @version     0.4.1
 // @description Add a clear date to the relative time in Github
 // @author      wzshiming
 // @match       *://github.com/*
@@ -71,7 +71,7 @@ function formatDate(datetime, now) {
         return "";
     }
 
-    return "" + hour + ":" + minute + ":" + second;
+    return formatNumber(hour) + ":" + formatNumber(minute) + ":" + formatNumber(second);
 }
 
 function formatTime(datetime, now) {
@@ -90,14 +90,18 @@ function formatTime(datetime, now) {
 
     // append date
     if (year == nowYear) { // this year will be omitted
-        return "" + (month + 1) + "/" + day;
+        return formatNumber(month + 1) + "/" + formatNumber(day);
     }
 
     let century = Math.round(year / 100);
     let nowCentury = Math.round(nowYear / 100);
     if (century == nowCentury) { // this century will be omitted
-        return "" + (year - 2000) + "/" + (month + 1) + "/" + day;
+        return formatNumber(year - 2000) + "/" + formatNumber(month + 1) + "/" + formatNumber(day);
     }
 
-    return "" + year + "/" + (month + 1) + "/" + day;
+    return formatNumber(year) + "/" + formatNumber(month + 1) + "/" + formatNumber(day);
+}
+
+function formatNumber(num) {
+    return num < 10 ? "0" + num : "" + num;
 }

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Github Clear Date
 // @namespace   https://github.com/wzshiming/userscripts
-// @version     0.4.1
+// @version     0.5.0
 // @description Add a clear date to the relative time in Github
 // @author      wzshiming
 // @match       *://github.com/*
@@ -31,7 +31,19 @@
 })();
 
 function mutate(elem) {
-    elem.querySelectorAll('relative-time').forEach(formatRelativeTime);
+    elem.querySelectorAll('relative-time').forEach(mutateItem);
+}
+
+function mutateItem(item) {
+    formatRelativeTime(item);
+    removeTruncate(item);
+}
+
+function removeTruncate(item) {
+    if (!item.parentNode.classList.contains("css-truncate")) {
+        return;
+    }
+    item.parentNode.classList.remove("css-truncate");
 }
 
 function mutation(mutationsList) {
@@ -42,18 +54,18 @@ function mutation(mutationsList) {
 
 function formatRelativeTime(item) {
     let text = item.shadowRoot.innerHTML;
-    if (text.length == 0 || text.indexOf("(") >= 0) {
+    if (text.length == 0 || text.indexOf(", ") >= 0) {
         return
     }
 
     let datetime = new Date(item.datetime);
     let now = new Date();
 
-    let dateStr = formatTime(datetime, now)
+    let dateStr = formatTime(datetime, now);
     if (dateStr.length == 0) {
         return
     }
-    item.shadowRoot.innerHTML += "(" + dateStr + ")";
+    item.shadowRoot.innerHTML = dateStr + ", " + text;
     return
 }
 

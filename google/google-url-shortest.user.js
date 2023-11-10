@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Google URL Shorten
 // @namespace   https://github.com/wzshiming/userscripts
-// @version     0.1.0
+// @version     0.1.1
 // @description Mark Google URL Shortest.
 // @author      wzshiming
 // @match       *://*.google.com/*
@@ -26,6 +26,7 @@ function sturl() {
     var nurl = window.location.href;
     var qs = [
         'newwindow', 'sca_esv', 'sxsrf', 'source', 'ei', 'iflsig', 'ved', 'uact', 'gs_lp', 'sclient', 'oq',
+        'hl',
     ];
     nurl = rmqs(nurl, qs);
 
